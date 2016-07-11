@@ -1,0 +1,247 @@
+syntax on
+set background=dark
+set clipboard=unnamed
+let g:solarized_termtrans = 1
+set diffopt+=vertical
+set nobackup
+set noswapfile
+
+" vim-copypath
+nnoremap <silent> yp :CopyRelativePath<CR>
+nnoremap <silent> yP :CopyRelativePath!<CR>
+nnoremap <silent> yu :CopyFullPath<CR>
+nnoremap <silent> yU :CopyFullPath!<CR>
+nnoremap <silent> yd :CopyParentPath<CR>
+nnoremap <silent> yD :CopyParentPath!<CR>
+
+" Visual Mode
+" vmap f y:CtrlP<CR><C-\>c<CR>
+" nmap f :Ag! <cword><CR>
+nmap fs :Ag! -G "\.(css\|scss)"<SPACE><cword><CR>
+nmap fj :Ag! -G "\.js"<SPACE><cword><CR>
+nmap fr :Ag! -G "\.rb"<SPACE><cword><CR>
+nmap fv :Ag! -G "\.(haml\|erb)"<SPACE><cword><CR>
+nmap fa :Ag! -G "\.(rb\|erb\|js\|css\|scss\|yml\|rake\|haml)"<SPACE><cword><CR>
+
+" Normal Mode
+nmap ; :
+nmap , *
+
+nnoremap '' <c-^>
+
+" Common
+map <Leader>w :w<CR>           "Save file
+map <Leader>q :q<CR>           "Quit file
+map <Leader>va <ESC>ggVG<CR>   "Select all file
+map <C-c> "*y<CR>
+map <C-a> <ESC>gg<S-v>G<ESC>
+map <Leader>ag :Ag!<SPACE>
+map <Leader>bi :PluginInstall<CR>
+map <Leader>ct :!ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)<CR>
+map <Leader>f :FixWhitespace<CR>
+map <Leader>n <C-w>v<C-h><SPACE><SPACE>
+map <Leader>h :GundoToggle<CR>
+map <Leader>nt :NERDTreeToggle<CR>
+map <Leader>rm :Remove!<CR>
+map <Leader>sg :sp<CR>:grep<SPACE>
+map <Leader>sv :source ~/.vimrc<CR>
+map <Leader>te :tabe<SPACE>
+map <Leader>v "*p<CR>
+map <Leader>vi :tabe ~/.vimrc.local<CR>
+map <Leader>p hplde
+map <C-q> :qa<CR>
+
+nnoremap <CR> o<Esc>k
+nnoremap <S-CR> O<Esc>j
+
+" Git
+map <Leader>co :Gread<CR>
+map <Leader>ga :Gwrite<CR>
+map <Leader>gac :Gcommit -am ""<LEFT>
+map <Leader>gb :Gblame<CR>
+map <Leader>gc :Gcommit -m ""<LEFT>
+map <Leader>gd :Gvdiff<CR>
+map <Leader>gm :Gmove<SPACE>
+map <Leader>gr :Gremove<CR>
+map <Leader>gs :Gstatus<CR>
+
+" Rails
+map <Leader>ac :Econtroller application<CR>
+map <Leader>eh :Ehelper<SPACE>
+map <Leader>ef :Efactory<SPACE>
+map <Leader>aj <ESC>:e app/assets/javascripts/application.js<CR>
+map <Leader>as <ESC>:e app/assets/stylesheets/application.scss<CR>
+map <Leader>av :AV<CR>
+map <Leader>bb :!bundle install<CR>
+map <Leader>c :Econtroller<SPACE>
+map <Leader>d <ESC>obyebug<ESC>
+map <Leader>dv <ESC>o- byebug<ESC>
+map <Leader>g :e Gemfile<CR>
+map <Leader>m :Emodel<SPACE>
+map <Leader>rt :e config/routes.rb<CR>
+map <Leader>sc :sp db/schema.rb<CR>
+map <Leader>vc :RVcontroller<SPACE>
+map <Leader>vm :Vmodel<SPACE>
+map <Leader>vv :RVview<SPACE>
+
+" Ctrl-P
+nnoremap <c-]> :CtrlPtjump<cr>
+vnoremap <c-]> :CtrlPtjumpVisual<cr>
+
+" vim-rspec mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
+let g:rspec_command = "Dispatch rspec {spec} -c -fprogress"
+
+" Navigate
+imap <C-h> <C-o>h
+imap <C-j> <C-o>j
+imap <C-k> <C-o>k
+imap <C-l> <C-o>l
+
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+if has('nvim')
+  map <BS> <C-W>h
+else
+  map <C-h> <C-w>h
+endif
+
+" Multi Cursor
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+" colors darkblue
+" colorscheme molokai
+colorscheme 256-grayvim
+syntax enable
+hi Normal ctermbg=NONE
+
+
+let NERDTreeIgnore=['tmp', 'log', 'tags', 'webpack.config.js', 'package.json.sample', 'dump.rdb', 'config.ru', 'public', 'node_modules', 'bin', 'README', 'README.md', 'circle.yml']
+
+" Plugin 'matze/vim-move'
+let g:move_key_modifier = 'C'
+
+" AG search
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " let g:ctrlp_user_command = 'ag %s -l -g ""' " --nocolor
+endif
+
+" let g:ctrlp_user_command = 'ag %s -l -g ""' " --nocolor
+
+highlight Search ctermbg=none ctermfg=none cterm=underline
+highlight Directory cterm=bold ctermfg=209 ctermbg=NONE
+highlight LineNr cterm=bold ctermfg=242 ctermbg=237
+highlight VertSplit ctermfg=234 ctermbg=234 guibg=67
+" highlight CursorLineNr term=bold ctermfg=232 ctermbg=244
+" highlight CursorLine ctermfg=none ctermbg=none guifg=none guibg=none
+" set cursorline
+
+" highlight Visual ctermbg=blue
+
+" Syntax
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" let g:tmuxline_powerline_separators = 2
+
+" Airline
+set encoding=utf-8
+set guifont="Inconsolata\-g\ for\ Powerline"
+set laststatus=2
+set fillchars+=stl:\ ,stlnc:\ ,vert:\ 
+
+let base16colorspace=256
+let g:Powerline_symbols = 'fancy'
+let g:airline_theme= 'papercolor'
+let g:airline#extensions#po#enabled = 0
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+" NERDTree
+let g:NERDTreeDirArrowExpandable = ""
+let g:NERDTreeDirArrowCollapsible = ""
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+
+" Syntastic
+let g:syntastic_error_symbol = ""
+let g:syntastic_warning_symbol = ""
+
+" Gitgutter
+let g:gitgutter_sign_added = ''
+let g:gitgutter_sign_modified = ''
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_modified_removed = ''
+
+
+""""""""""""""""""""""""""""""""""""""""
+""              DEOPLETE              ||
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 'ignorecase'
+let g:deoplete#sources = {}
+let g:deoplete#sources_ = ['buffer','tag']
+" <Tab> completion:
+" 1. If popup menu is visible, select and insert next item
+" 2. Otherwise, if within a snippet, jump to next input
+" 3. Otherwise, if preceding chars are whitespace, insert tab char
+" 4. Otherwise, start manual autocomplete
+imap <silent><expr><Tab> pumvisible() ? "\<C-n>"
+    \ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
+    \ : (<SID>is_whitespace() ? "\<Tab>"
+    \ : deoplete#mappings#manual_complete()))
+
+smap <silent><expr><Tab> pumvisible() ? "\<C-n>"
+    \ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
+    \ : (<SID>is_whitespace() ? "\<Tab>"
+    \ : deoplete#mappings#manual_complete()))
+
+inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:is_whitespace() "{{{
+    let col = col('.') - 1
+    return ! col || getline('.')[col - 1] =~? '\s'
+endfunction "}}}
+""            END DEOPLETE            ||
+""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""
+""            EasyMotion              ||
+map  ' <Plug>(easymotion-sn)
+omap ' <Plug>(easymotion-tn)<Paste>
+map  m <Plug>(easymotion-next)
+map  M <Plug>(easymotion-prev)
+""            END EasyMotion          ||
+""""""""""""""""""""""""""""""""""""""""
+
+" CtrlPtjump
+let g:ctrlp_tjump_shortener = ['/.*/gems/', '.../']
+let g:ctrlp_tjump_only_silent = 1
+let g:ctrlp_tjump_skip_tag_name = 1
